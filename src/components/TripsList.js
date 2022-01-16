@@ -4,20 +4,24 @@ import "./TripList.css";
 
 function TripsList() {
   const [url, setUrl] = useState("http://localhost:3000/trips");
-  const { data: trips } = useFetch(url);
+  const { data: trips, isPending } = useFetch(url);
   return (
     <div className="trip-list">
       <h2>Trip List</h2>
-      <ul>
-        {trips &&
-          trips.map((trip) => (
-            <li key={trip.id}>
-              <h3>Title: {trip.title}</h3>
-              <p>Price: {trip.price}</p>
-              <p>Location: {trip.loc}</p>
-            </li>
-          ))}
-      </ul>
+      {isPending ? (
+        <div>Loading trips...</div>
+      ) : (
+        <ul>
+          {trips &&
+            trips.map((trip) => (
+              <li key={trip.id}>
+                <h3>Title: {trip.title}</h3>
+                <p>Price: {trip.price}</p>
+                <p>Location: {trip.loc}</p>
+              </li>
+            ))}
+        </ul>
+      )}
       <div className="filters">
         <button onClick={() => setUrl("http://localhost:3000/trips")}>
           All Trips
